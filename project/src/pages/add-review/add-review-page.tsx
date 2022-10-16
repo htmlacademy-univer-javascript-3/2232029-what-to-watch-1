@@ -1,6 +1,6 @@
 import Logo from '../../components/logo/logo';
 
-export default function AddReviewPage() {
+function AddReviewPage() {
   return (
     <section className='film-card film-card--full'>
       <div className='film-card__header'>
@@ -91,3 +91,4 @@ export default function AddReviewPage() {
     </section>
   );
 }
+export default AddReviewPage;

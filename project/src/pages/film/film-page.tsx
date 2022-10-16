@@ -1,13 +1,10 @@
-import React from 'react';
 import FilmCard from '../../components/filmCard/film-card';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
 
-const HREF_DEFAULT = 'film-page.html';
-
-export default function FilmPage(): JSX.Element {
+export default function FilmPage() {
   return (
-    <React.Fragment>
+    <>
       <section className='film-card film-card--full'>
         <div className='film-card__hero'>
           <div className='film-card__bg'>
@@ -111,31 +108,27 @@ export default function FilmPage(): JSX.Element {
             <FilmCard
               img={'img/fantastic-beasts-the-crimes-of-grindelwald.jpg'}
               name={'Fantastic Beasts: The Crimes of Grindelwald'}
-              href={HREF_DEFAULT}
             />
 
             <FilmCard
               img={'img/bohemian-rhapsody.jpg'}
               name={'Bohemian Rhapsody'}
-              href={HREF_DEFAULT}
             />
 
             <FilmCard
               img={'img/macbeth.jpg'}
               name={'Macbeth'}
-              href={HREF_DEFAULT}
             />
 
             <FilmCard
               img={'img/aviator.jpg'}
               name={'Aviator'}
-              href={HREF_DEFAULT}
             />
           </div>
         </section>
 
         <Footer />
       </div>
-    </React.Fragment>
+    </>
   );
 }
