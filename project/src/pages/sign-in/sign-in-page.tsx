@@ -1,8 +1,7 @@
-import React from 'react';
 import Logo from '../../components/logo/logo';
 import Footer from '../../components/footer/footer';
 
-export default function SignInPage(): JSX.Element {
+export default function SignInPage() {
   return (
     <div className="user-page">
       <header className="page-header user-page__head">

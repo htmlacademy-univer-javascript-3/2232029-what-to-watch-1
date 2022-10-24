@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default function PlayerPage(): JSX.Element {
+export default function PlayerPage() {
   return (
     <div className="player">
       <video src="#" className="player__video" poster={'img/player-poster.jpg'}/>
