@@ -1,14 +1,22 @@
-import FilmCard from '../../components/filmCard/film-card';
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
+import { Film } from '../../types/film';
+import { FC } from 'react';
+import FilmList from '../../components/filmList/filmList';
+import { ROUTES } from '../../routes';
 
-export default function FilmPage() {
+type Props = {
+  film: Film;
+  similarFilms: Film[];
+}
+const FilmPage: FC<Props> = (props) => {
+  const { film, similarFilms } = props;
   return (
     <>
       <section className='film-card film-card--full'>
         <div className='film-card__hero'>
           <div className='film-card__bg'>
-            <img src={'img/bg-the-grand-budapest-hotel.jpg'} alt='The Grand Budapest Hotel'/>
+            <img src={`img/${film?.posterImage}`} alt={film?.name}/>
           </div>
 
           <h1 className='visually-hidden'>WTW</h1>
@@ -17,10 +25,10 @@ export default function FilmPage() {
 
           <div className='film-card__wrap'>
             <div className='film-card__desc'>
-              <h2 className='film-card__title'>The Grand Budapest Hotel</h2>
+              <h2 className='film-card__title'>{film.name}</h2>
               <p className='film-card__meta'>
-                <span className='film-card__genre'>Drama</span>
-                <span className='film-card__year'>2014</span>
+                <span className='film-card__genre'>{film.genre}</span>
+                <span className='film-card__year'>{film.released}</span>
               </p>
 
               <div className='film-card__buttons'>
@@ -39,7 +47,7 @@ export default function FilmPage() {
                   <span>My list</span>
                   <span className='film-card__count'>9</span>
                 </button>
-                <a href='add-review.html' className='btn film-card__button'>Add review</a>
+                <a href={ROUTES.ADDREVIEW} className='btn film-card__button'>Add review</a>
               </div>
             </div>
           </div>
@@ -79,14 +87,10 @@ export default function FilmPage() {
                   Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave`&apos;`s friend and protege.
                 </p>
 
-                <p>Gustave prides himself on providing first-class service to the hotel`&apos;`s guests, including satisfying
-                  the sexual needs of the many elderly women who stay there. When one of Gustave`&apos;`s lovers dies
-                  mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her
-                  murder.
-                </p>
+                <p>{film.description}</p>
 
                 <p className='film-card__director'>
-                  <strong>Director: Wes Anderson
+                  <strong>Director: {film.director}
                   </strong>
                 </p>
 
@@ -103,32 +107,14 @@ export default function FilmPage() {
       <div className='page-content'>
         <section className='catalog catalog--like-this'>
           <h2 className='catalog__title'>More like this</h2>
+          <FilmList films={similarFilms}/>
 
-          <div className='catalog__films-list'>
-            <FilmCard
-              img={'img/fantastic-beasts-the-crimes-of-grindelwald.jpg'}
-              name={'Fantastic Beasts: The Crimes of Grindelwald'}
-            />
-
-            <FilmCard
-              img={'img/bohemian-rhapsody.jpg'}
-              name={'Bohemian Rhapsody'}
-            />
-
-            <FilmCard
-              img={'img/macbeth.jpg'}
-              name={'Macbeth'}
-            />
-
-            <FilmCard
-              img={'img/aviator.jpg'}
-              name={'Aviator'}
-            />
-          </div>
         </section>
 
         <Footer />
       </div>
     </>
   );
-}
+};
+
+export default FilmPage;

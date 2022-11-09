@@ -1,62 +1,24 @@
 import Header from '../../components/header/header';
-import FilmCard from '../../components/filmCard/film-card';
 import Footer from '../../components/footer/footer';
+import { FC } from 'react';
+import FilmList from '../../components/filmList/filmList';
+import { Film } from '../../types/film';
 
-export default function MyListPage() {
+type Props = {
+  films: Film[];
+}
+const MyListPage: FC<Props> = (props) => {
+  const { films } = props;
   return (
     <div className='user-page'>
       <Header />
 
       <section className='catalog'>
         <h2 className='catalog__title visually-hidden'>Catalog</h2>
-        <div className='catalog__films-list'>
-          <FilmCard
-            img={'img/fantastic-beasts-the-crimes-of-grindelwald.jpg'}
-            name={'Fantastic Beasts: The Crimes of Grindelwald'}
-          />
-
-          <FilmCard
-            img={'img/bohemian-rhapsody.jpg'}
-            name={'Bohemian Rhapsody'}
-          />
-
-          <FilmCard
-            img={'img/macbeth.jpg'}
-            name={'Macbeth'}
-          />
-
-          <FilmCard
-            img={'img/aviator.jpg'}
-            name={'Aviator'}
-          />
-
-          <FilmCard
-            img={'img/we-need-to-talk-about-kevin.jpg'}
-            name={'We need to talk about Kevin'}
-          />
-
-          <FilmCard
-            img={'img/what-we-do-in-the-shadows.jpg'}
-            name={'What We Do in the Shadows'}
-          />
-
-          <FilmCard
-            img={'img/revenant.jpg'}
-            name={'Revenant'}
-          />
-
-          <FilmCard
-            img={'img/johnny-english.jpg'}
-            name={'Johnny English'}
-          />
-
-          <FilmCard
-            img={'img/shutter-island.jpg'}
-            name={'Shutter Island'}
-          />
-        </div>
+        <FilmList films={films}/>
       </section>
       <Footer />
     </div>
   );
-}
+};
+export default MyListPage;

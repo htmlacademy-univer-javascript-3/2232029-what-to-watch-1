@@ -1,7 +1,12 @@
+import { FC } from 'react';
 import Logo from '../logo/logo';
-import {HeaderProps} from '../../types/header-props';
 
-function Header(props: HeaderProps) {
+type Props = {
+  isMyListVisible?: boolean;
+  myListCount?: number;
+}
+
+const Header : FC<Props> = (props) => {
   const { isMyListVisible, myListCount } = props;
   return (
     <header className="page-header user-page__head">
@@ -20,10 +25,10 @@ function Header(props: HeaderProps) {
           </div>
         </li>
         <li className="user-block__item">
-          <a className="user-block__link">Sign out</a>
+          <a className="user-block__link" href="">Sign out</a>
         </li>
       </ul>
     </header>
   );
-}
+};
 export default Header;
