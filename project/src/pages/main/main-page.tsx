@@ -1,99 +1,21 @@
-import React from 'react';
+import { FC } from 'react';
 import FilmCard from '../../components/filmCard/film-card';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import { MainPageProp } from '../../types/main-page-prop';
-import {FilmCardProps} from '../../types/film-card-props';
+import { Film } from '../../types/film';
 
-const films: FilmCardProps[] = [
-  {
-    img: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
-    name: 'Fantastic Beasts: The Crimes of Grindelwald'
-  },
-  {
-    img: 'img/bohemian-rhapsody.jpg',
-    name: 'Bohemian Rhapsody',
-  },
-  {
-    img: 'img/macbeth.jpg',
-    name: 'Macbeth',
-  },
-  {
-    img: 'img/aviator.jpg',
-    name: 'Aviator',
-  },
-  {
-    img: 'img/we-need-to-talk-about-kevin.jpg',
-    name: 'We need to talk about Kevin',
-  },
-  {
-    img: 'img/what-we-do-in-the-shadows.jpg',
-    name: 'What We Do in the Shadows',
-  },
-  {
-    img: 'img/revenant.jpg',
-    name: 'Revenant',
-  },
-  {
-    img: 'img/johnny-english.jpg',
-    name: 'Johnny English',
-  },
-  {
-    img: 'img/shutter-island.jpg',
-    name: 'Shutter Island',
-  },
-  {
-    img: 'img/pulp-fiction.jpg',
-    name: 'Pulp Fiction',
-  },
-  {
-    img: 'img/no-country-for-old-men.jpg',
-    name: 'No Country for Old Men',
-  },
-  {
-    img: 'img/snatch.jpg',
-    name: 'Snatch',
-  },
-  {
-    img: 'img/moonrise-kingdom.jpg',
-    name: 'Moonrise Kingdom',
-  },
-  {
-    img: 'img/seven-years-in-tibet.jpg',
-    name: 'Seven Years in Tibet',
-  },
-  {
-    img: 'img/midnight-special.jpg',
-    name: 'Midnight Special',
-  },
-  {
-    img: 'img/war-of-the-worlds.jpg',
-    name: 'War of the Worlds',
-  },
-  {
-    img: 'img/dardjeeling-limited.jpg',
-    name: 'Dardjeeling Limited',
-  },
-  {
-    img: 'img/orlando.jpg',
-    name: 'Orlando',
-  },
-  {
-    img: 'img/mindhunter.jpg',
-    name: 'Mindhunter',
-  },
-  {
-    img: 'img/midnight-special.jpg',
-    name: 'Midnight Special',
-  },
-];
+type Props = {
+  film: Film;
+  filmsList: Film[];
+}
 
-function MainPage(props: MainPageProp) {
+const MainPage: FC<Props> = (props) => {
+  const { film, filmsList } = props;
   return (
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={props.img} alt={props.name}/>
+          <img src={film.posterImage} alt={film.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -104,18 +26,18 @@ function MainPage(props: MainPageProp) {
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src={'img/the-grand-budapest-hotel-poster.jpg'}
-                alt="The Grand Budapest Hotel poster"
+                src={film.posterImage}
+                alt={film.name}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{props.name}</h2>
+              <h2 className="film-card__title">{film.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{props.genre}</span>
-                <span className="film-card__year">{props.year}</span>
+                <span className="film-card__genre">{film.genre}</span>
+                <span className="film-card__year">{film.released}</span>
               </p>
 
               <div className="film-card__buttons">
@@ -164,8 +86,17 @@ function MainPage(props: MainPageProp) {
 
           <div className="catalog__films-list">
             {
-              films.map((film) =>
-                <FilmCard {...film} key={film.name}/>)
+              filmsList.map((item) => (
+                <FilmCard
+                  film={{
+                    id: film.id,
+                    image: item.posterImage,
+                    name: item.name,
+                    previewVideoLink: item.previewVideoLink
+                  }}
+                  key={item.name}
+                />
+              ))
             }
           </div>
 
@@ -178,5 +109,5 @@ function MainPage(props: MainPageProp) {
       </div>
     </>
   );
-}
+};
 export default MainPage;
