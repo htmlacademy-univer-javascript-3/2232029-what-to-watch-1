@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import FilmCard from '../../components/filmCard/film-card';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Film } from '../../types/film';
+import FilmList from '../../components/filmList/filmList';
 
 type Props = {
   film: Film;
@@ -85,19 +85,7 @@ const MainPage: FC<Props> = (props) => {
           </ul>
 
           <div className="catalog__films-list">
-            {
-              filmsList.map((item) => (
-                <FilmCard
-                  film={{
-                    id: film.id,
-                    image: item.posterImage,
-                    name: item.name,
-                    previewVideoLink: item.previewVideoLink
-                  }}
-                  key={item.name}
-                />
-              ))
-            }
+            <FilmList films={filmsList}/>
           </div>
 
           <div className="catalog__more">
