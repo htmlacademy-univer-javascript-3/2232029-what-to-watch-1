@@ -4,7 +4,7 @@ export const ROUTES = {
   MYLIST: '/mylist',
   FILM: '/films/:id',
   FILMPREFIX: '/films',
-  ADDREVIEW: '/films/:id/review',
+  ADDREVIEW: '/films/:id/film-review',
   PLAYER: '/player/:id',
   NOTFOUND: '*'
 };

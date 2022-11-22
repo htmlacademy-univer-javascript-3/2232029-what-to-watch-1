@@ -12,7 +12,7 @@ const FilmCard: FC<Props> = (props) => {
       <div className="small-film-card__image">
         <img src={film.image} alt={film.name} width="280" height="175"/>
       </div>
-      <h3 className="small-film-card__title">
+      <h3 className="git pull academy mastersmall-film-card__title">
         <a className="small-film-card__link" href={`/films/${film.id}`}>{film.name}</a>
       </h3>
     </article>
