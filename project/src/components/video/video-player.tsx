@@ -14,15 +14,13 @@ const VideoPlayer: FC<Props> = (props) => {
   const playerRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
-    if (playerRef === null) {
+    if (!playerRef?.current) {
       return;
     }
 
-    if (isPlaying) {
-      playerRef.current?.play();
-    } else {
-      playerRef.current?.load();
-    }
+    isPlaying
+      ? playerRef.current.play()
+      : playerRef.current.load();
 
   }, [isPlaying]);
 

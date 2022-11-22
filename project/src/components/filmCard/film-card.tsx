@@ -9,37 +9,37 @@ type Props = {
 
 const FilmCard: FC<Props> = (props) => {
   const { film, onHover } = props;
-  const [doesVideoPlaying, setDoesVideoPlaying] = useState(false);
-  const [doesNeedVideoToPlay, setDoesNeedVideoToPlay] = useState(false);
+  const [playing, setPlaying] = useState<boolean>(false);
+  const [needPlaying, setNeedPlaying] = useState<boolean>(false);
 
   useEffect(() => {
     let needUpdate = true;
 
-    if (doesNeedVideoToPlay) {
-      setTimeout(() => needUpdate && setDoesVideoPlaying(true), 1000);
+    if (needPlaying) {
+      setTimeout(() => needUpdate && setNeedPlaying(true), 1000);
     }
 
     return () => {needUpdate = false;};
-  }, [doesNeedVideoToPlay]);
+  }, [needPlaying]);
 
-  const handleCardMouseLeave = () => {
-    setDoesNeedVideoToPlay(false);
-    setDoesVideoPlaying(false);
+  const handleMouseLeave = () => {
+    setNeedPlaying(false);
+    setPlaying(false);
   };
 
   return(
     <article
       className="small-film-card catalog__films-card"
       onMouseOver={(_) => {
-        setDoesNeedVideoToPlay(true);
+        setNeedPlaying(true);
         onHover?.((__) => film.id);
       }}
-      onMouseLeave={handleCardMouseLeave}
+      onMouseLeave={handleMouseLeave}
     >
       <VideoPlayer
         film={film}
         needSound={false}
-        isPlaying={doesVideoPlaying}
+        isPlaying={playing}
         width={280}
         height={175}
       />
