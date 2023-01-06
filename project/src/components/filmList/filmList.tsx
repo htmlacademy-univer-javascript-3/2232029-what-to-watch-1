@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import {FC, useState} from 'react';
 import { Film } from '../../types/film';
 import FilmCard from '../filmCard/film-card';
 
@@ -8,6 +8,8 @@ type Props = {
 
 const FilmList: FC<Props> = (props) => {
   const { films } = props;
+  const [, setActiveFilmCard] = useState<number | null>(null);
+
   return (
     <div className='catalog__films-list'>
       {
@@ -19,7 +21,8 @@ const FilmList: FC<Props> = (props) => {
               name: film.name,
               previewVideoLink: film.previewVideoLink
             }}
-            key={film.name}
+            key={film.id}
+            onHover={setActiveFilmCard}
           />
         )
         )
