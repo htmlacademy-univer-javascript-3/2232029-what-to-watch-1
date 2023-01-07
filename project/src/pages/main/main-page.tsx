@@ -3,14 +3,20 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Film } from '../../types/film';
 import FilmList from '../../components/filmList/filmList';
+import {TypedUseSelectorHook, useSelector} from 'react-redux';
+import {store} from '../../store';
+import GenresList from '../../components/genre-list/genre-list';
+import {Genre} from '../../types/genres';
 
 type Props = {
   film: Film;
-  filmsList: Film[];
 }
 
 const MainPage: FC<Props> = (props) => {
-  const { film, filmsList } = props;
+  const { film } = props;
+  const useMySelector: TypedUseSelectorHook<ReturnType<typeof store.getState>> = useSelector;
+  const {films, genre} = useMySelector((selector) => selector);
+
   return (
     <>
       <section className="film-card">
@@ -63,29 +69,10 @@ const MainPage: FC<Props> = (props) => {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-
-          <ul className="catalog__genres-list">
-            {
-              [
-                'All genres',
-                'Comedies',
-                'Crime',
-                'Documentary',
-                'Dramas',
-                'Horror',
-                'Kids & Family',
-                'Romance',
-                'Sci-Fi',
-                'Thrillers'
-              ].map((item) => (
-                <li className="catalog__genres-item catalog__genres-item--active" key={item}>
-                  <a href="#" className="catalog__genres-link">{item}</a>
-                </li>))
-            }
-          </ul>
+          <GenresList genres={Object.values(Genre)} currentGenre={genre}/>
 
           <div className="catalog__films-list">
-            <FilmList films={filmsList}/>
+            <FilmList films={films}/>
           </div>
 
           <div className="catalog__more">

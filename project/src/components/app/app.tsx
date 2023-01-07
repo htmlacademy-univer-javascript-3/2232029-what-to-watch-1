@@ -21,7 +21,7 @@ const App : FC<Props> = (props) => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={ROUTES.MAIN} element={<MainPage film={film} filmsList={filmList}/>}/>
+        <Route path={ROUTES.MAIN} element={<MainPage film={film}/>}/>
         <Route path={ROUTES.SIGNIN} element={<SignInPage/>}/>
         <Route
           path={ROUTES.MYLIST}
