@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import {FC, useState} from 'react';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Film } from '../../types/film';
@@ -7,15 +7,27 @@ import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {store} from '../../store';
 import GenresList from '../../components/genre-list/genre-list';
 import {Genre} from '../../types/genres';
+import ShowMore from '../../components/show-more/show-more';
 
 type Props = {
   film: Film;
 }
 
+const SHOWED_FILMS_STEP = 8;
+
 const MainPage: FC<Props> = (props) => {
   const { film } = props;
+  const [showedFilmsCount, setShowedFilmsCount] = useState(SHOWED_FILMS_STEP);
   const useMySelector: TypedUseSelectorHook<ReturnType<typeof store.getState>> = useSelector;
   const {films, genre} = useMySelector((selector) => selector);
+
+  const filteredFilms = films
+    .filter((curFilm) => curFilm.genre === genre || genre === Genre.ALL_GENRES)
+    .slice(0, showedFilmsCount);
+
+  const handleMoreBtnClick = () => {
+    setShowedFilmsCount(showedFilmsCount + SHOWED_FILMS_STEP);
+  };
 
   return (
     <>
@@ -72,12 +84,10 @@ const MainPage: FC<Props> = (props) => {
           <GenresList genres={Object.values(Genre)} currentGenre={genre}/>
 
           <div className="catalog__films-list">
-            <FilmList films={films}/>
+            <FilmList films={filteredFilms}/>
           </div>
 
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          {filteredFilms.length % SHOWED_FILMS_STEP === 0 && <ShowMore onClick={handleMoreBtnClick}/>}
         </section>
 
         <Footer />

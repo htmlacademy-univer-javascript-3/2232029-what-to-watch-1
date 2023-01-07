@@ -1,11 +1,12 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {mockFilms} from "../mocks/films";
-import {changeGenre, fillFilmList} from "./action";
+import {mockFilms} from '../mocks/films';
+import {changeGenre, fillFilmList} from './action';
+import {Genre} from '../types/genres';
 
 
 const initialState = {
   films: mockFilms,
-  genre: 'All genres',
+  genre: Genre.ALL_GENRES,
 };
 
 export const updateStore = createReducer(initialState, (builder) => {

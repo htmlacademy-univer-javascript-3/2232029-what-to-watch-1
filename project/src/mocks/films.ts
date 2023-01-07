@@ -303,7 +303,7 @@ export const mockFilms: Film[] = [
     director: 'Director',
     starring: ['Actor 1', 'Actor 2', 'Actor 3'],
     runTime: 60,
-    genre: 'crime',
+    genre: 'Horror',
     released: 2010,
     isFavorite: true
   },
@@ -322,7 +322,7 @@ export const mockFilms: Film[] = [
     director: 'Director',
     starring: ['Actor 1', 'Actor 2', 'Actor 3'],
     runTime: 60,
-    genre: 'crime',
+    genre: 'Drama',
     released: 2010,
     isFavorite: true
   },
@@ -341,7 +341,7 @@ export const mockFilms: Film[] = [
     director: 'Director',
     starring: ['Actor 1', 'Actor 2', 'Actor 3'],
     runTime: 60,
-    genre: 'crime',
+    genre: 'Documentary',
     released: 2010,
     isFavorite: true
   },
@@ -360,7 +360,7 @@ export const mockFilms: Film[] = [
     director: 'Director',
     starring: ['Actor 1', 'Actor 2', 'Actor 3'],
     runTime: 60,
-    genre: 'crime',
+    genre: 'Comedy',
     released: 2010,
     isFavorite: true
   },
@@ -406,5 +406,5 @@ export const PROMO_FILM: Film = {
 };
 
 export function getFilmById(id: number): Film {
-  return mockFilms.filter(m => m.id === id)[0];
+  return mockFilms.filter((m) => m.id === id)[0];
 }
