@@ -3,11 +3,10 @@ import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import { Film } from '../../types/film';
 import FilmList from '../../components/filmList/filmList';
-import {TypedUseSelectorHook, useSelector} from 'react-redux';
-import {store} from '../../store';
 import GenresList from '../../components/genre-list/genre-list';
 import {Genre} from '../../types/genres';
 import ShowMore from '../../components/show-more/show-more';
+import {useAppSelector} from '../../components/app/hooks';
 
 type Props = {
   film: Film;
@@ -18,8 +17,7 @@ const SHOWED_FILMS_STEP = 8;
 const MainPage: FC<Props> = (props) => {
   const { film } = props;
   const [showedFilmsCount, setShowedFilmsCount] = useState(SHOWED_FILMS_STEP);
-  const useMySelector: TypedUseSelectorHook<ReturnType<typeof store.getState>> = useSelector;
-  const {films, genre} = useMySelector((selector) => selector);
+  const {films, genre} = useAppSelector((selector) => selector);
 
   const filteredFilms = films
     .filter((curFilm) => curFilm.genre === genre || genre === Genre.ALL_GENRES)

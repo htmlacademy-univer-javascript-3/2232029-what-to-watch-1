@@ -4,3 +4,4 @@ import {Genre} from '../types/genres';
 
 export const changeGenre = createAction<{genre: Genre}>('changeGenre');
 export const fillFilmList = createAction<{films: Film[]}>('fillFilmList');
+export const setFilmsLoadedStatus = createAction<boolean>('setFilmsLoadedStatus');
