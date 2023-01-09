@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Logo from '../logo/logo';
-import UserBlock from '../app/user-block/user-block';
+import UserBlock from '../user-block/user-block';
 
 type Props = {
   isMyListVisible?: boolean;

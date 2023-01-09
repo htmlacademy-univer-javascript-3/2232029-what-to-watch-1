@@ -9,3 +9,8 @@ export type Review = {
     name: 'Kate Muir';
   };
 }
+
+export type ReviewData = {
+  reviewText: string;
+  rating: number;
+}
