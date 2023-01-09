@@ -11,7 +11,7 @@ type Props = {
 const GenreItem: React.FC<Props> = (props) => {
   const {genre, isCurrentGenre} = props;
   const clickHandler = () => {
-    store.dispatch(changeGenre({genre: genre}));
+    store.dispatch(changeGenre(genre));
   };
 
   return (
