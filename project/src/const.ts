@@ -2,7 +2,10 @@ export enum APIRoute {
   Films = '/films',
   Login = '/login',
   Logout = '/logout',
-  Comments = '/comments'
+  Reviews = '/comments',
+  Similar = '/similar',
+  Promo = '/promo',
+  Favorite = '/favorite',
 }
 
 export enum AuthorizationStatus {

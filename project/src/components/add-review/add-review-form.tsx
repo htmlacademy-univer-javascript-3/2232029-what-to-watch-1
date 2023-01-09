@@ -27,7 +27,7 @@ const AddReviewForm: FC<Props> = (props) => {
   };
 
   const onSubmit = (review: ReviewData) => {
-    api.post<Review[]>(`${APIRoute.Comments}/${filmId}`, {...review}).then();
+    api.post<Review[]>(`${APIRoute.Reviews}/${filmId ?? 0}`, {...review}).then();
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -55,7 +55,9 @@ const AddReviewForm: FC<Props> = (props) => {
       <div className="add-review__text">
         <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={formValue.reviewText} onChange={handleReviewTextChange}/>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          { (formValue.reviewText.length < 50 || formValue.reviewText.length >= 400)
+            ? <button className="add-review__btn" type="submit" disabled>Post</button>
+            : <button className="add-review__btn" type="submit">Post</button>}
         </div>
       </div>
     </form>

@@ -13,20 +13,22 @@ import {useAppSelector} from '../../hooks';
 import Loader from '../loader/loader';
 import browserHistory from '../../browser-history/browser-history';
 import HistoryRouter from '../history-router/history-router';
+import {getAuthorizationStatus} from '../../store/user-reducer/user-selector';
+import {getFilms, getIsDataLoaded} from '../../store/main-reducer/main-selector';
 
 const App : FC = () => {
-  const {films, isDataLoaded, authorizationStatus} = useAppSelector((selector) => selector);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
+  const films = useAppSelector(getFilms);
 
   if (!isDataLoaded){
     return <Loader />;
   }
 
-  const film = films[0];
-
   return (
     <HistoryRouter history={browserHistory}>
       <Routes>
-        <Route path={ROUTES.MAIN} element={<MainPage film={film}/>}/>
+        <Route path={ROUTES.MAIN} element={<MainPage/>}/>
         <Route path={ROUTES.SIGNIN} element={<SignInPage/>}/>
         <Route
           path={ROUTES.MYLIST}

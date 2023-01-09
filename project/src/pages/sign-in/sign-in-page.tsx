@@ -6,9 +6,10 @@ import { loginAction } from '../../store/api-actions';
 import {ROUTES} from '../../routes';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
+import {getAuthorizationStatus} from '../../store/user-reducer/user-selector';
 
 const SignInPage: FC = () => {
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
 
   if (authorizationStatus === AuthorizationStatus.Auth){

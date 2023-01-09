@@ -1,26 +1,29 @@
 import {FC, useState} from 'react';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
-import { Film } from '../../types/film';
 import FilmList from '../../components/filmList/filmList';
 import GenresList from '../../components/genre-list/genre-list';
 import {Genre} from '../../types/genres';
 import ShowMore from '../../components/show-more/show-more';
 import {useAppSelector} from '../../hooks';
-
-type Props = {
-  film: Film;
-}
+import {getCurrentGenre, getFilms, getPromoFilm} from '../../store/main-reducer/main-selector';
+import {getAuthorizationStatus} from '../../store/user-reducer/user-selector';
+import {AuthorizationStatus} from '../../const';
+import {Link} from 'react-router-dom';
+import PlayerButton from '../../components/player-button/player-button';
+import MyListButton from '../../components/my-list-button/my-list';
 
 const SHOWED_FILMS_STEP = 8;
 
-const MainPage: FC<Props> = (props) => {
-  const { film } = props;
+const MainPage: FC = () => {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const films = useAppSelector(getFilms);
+  const currentGenre = useAppSelector(getCurrentGenre);
+  const promoFilm = useAppSelector(getPromoFilm);
   const [showedFilmsCount, setShowedFilmsCount] = useState(SHOWED_FILMS_STEP);
-  const {films, genre} = useAppSelector((selector) => selector);
 
   const filteredFilms = films
-    .filter((curFilm) => curFilm.genre === genre || genre === Genre.ALL_GENRES)
+    .filter((curFilm) => curFilm.genre === currentGenre || currentGenre === Genre.ALL_GENRES)
     .slice(0, showedFilmsCount);
 
   const handleMoreBtnClick = () => {
@@ -31,7 +34,7 @@ const MainPage: FC<Props> = (props) => {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src={film.posterImage} alt={film.name}/>
+          <img src={promoFilm?.posterImage} alt={promoFilm?.name}/>
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -42,34 +45,25 @@ const MainPage: FC<Props> = (props) => {
           <div className="film-card__info">
             <div className="film-card__poster">
               <img
-                src={film.posterImage}
-                alt={film.name}
+                src={promoFilm?.posterImage}
+                alt={promoFilm?.name}
                 width="218"
                 height="327"
               />
             </div>
 
             <div className="film-card__desc">
-              <h2 className="film-card__title">{film.name}</h2>
+              <h2 className="film-card__title">{promoFilm?.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{film.genre}</span>
-                <span className="film-card__year">{film.released}</span>
+                <span className="film-card__genre">{promoFilm?.genre}</span>
+                <span className="film-card__year">{promoFilm?.released}</span>
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"/>
-                  </svg>
-                  <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"/>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                <Link to={`/player/${promoFilm?.id ?? 0}`} className="btn btn--play film-card__button">
+                  <PlayerButton isPlay/>
+                </Link>
+                { authorizationStatus === AuthorizationStatus.Auth ? <MyListButton film={promoFilm}/> : null }
               </div>
             </div>
           </div>
@@ -79,7 +73,7 @@ const MainPage: FC<Props> = (props) => {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenresList genres={Object.values(Genre)} currentGenre={genre}/>
+          <GenresList genres={Object.values(Genre)} currentGenre={currentGenre}/>
 
           <div className="catalog__films-list">
             <FilmList films={filteredFilms}/>
