@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import {logoutAction} from '../../../store/api-actions';
-import {useAppDispatch, useAppSelector} from '../../../hooks';
-import {AuthorizationStatus} from '../../../const';
+import {logoutAction} from '../../store/api-actions';
+import {useAppDispatch, useAppSelector} from '../../hooks';
+import {AuthorizationStatus} from '../../const';
 
 type AuthedUserBlockProps = {
   avatarLink: string;
