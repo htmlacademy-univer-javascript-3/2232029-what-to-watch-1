@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import {logoutAction} from '../../store/api-actions';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {AuthorizationStatus} from '../../const';
+import {getAuthorizationStatus, getUser} from '../../store/user-reducer/user-selector';
 
 type AuthedUserBlockProps = {
   avatarLink: string;
@@ -32,7 +33,8 @@ const AuthedUserBlock: FC<AuthedUserBlockProps> = (props) => {
 };
 
 const UserBlock: FC = () => {
-  const { authorizationStatus, user } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const user = useAppSelector(getUser);
 
   return (
     <ul className="user-block">

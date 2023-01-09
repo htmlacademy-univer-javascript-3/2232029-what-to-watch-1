@@ -14,13 +14,14 @@ import { AuthorizationStatus } from '../../const';
 import { StatusCodes } from 'http-status-codes';
 import {redirectToRoute} from '../../store/action';
 import {api} from '../../services/api';
+import {getAuthorizationStatus} from '../../store/user-reducer/user-selector';
 
 const FilmPage: FC = () => {
   const [dataLoaded, setDataLoaded] = useState(false);
   const [film, setFilm] = useState<null | Film>(null);
   const [similarFilms, setSimilarFilms] = useState<null | Film[]>(null);
   const [reviews, setReviews] = useState<null | Review[]>(null);
-  const { authorizationStatus } = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const { id } = useParams();
   const dispatch = useAppDispatch();
 
