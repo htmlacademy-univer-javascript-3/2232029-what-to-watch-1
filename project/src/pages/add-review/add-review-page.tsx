@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Logo from '../../components/logo/logo';
-import { ROUTES } from '../../routes';
+import UserBlock from '../../components/app/user-block/user-block';
 
 const AddReviewPage: FC = () => (
   <section className='film-card film-card--full'>
@@ -25,16 +25,7 @@ const AddReviewPage: FC = () => (
           </ul>
         </nav>
 
-        <ul className='user-block'>
-          <li className='user-block__item'>
-            <div className='user-block__avatar'>
-              <img src={'img/avatar.jpg'} alt='User avatar' width='63' height='63'/>
-            </div>
-          </li>
-          <li className='user-block__item'>
-            <a className='user-block__link' href={ROUTES.MAIN}>Sign out</a>
-          </li>
-        </ul>
+        <UserBlock />
       </header>
 
       <div className='film-card__poster film-card__poster--small'>

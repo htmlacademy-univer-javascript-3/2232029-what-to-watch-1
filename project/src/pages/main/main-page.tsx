@@ -6,7 +6,7 @@ import FilmList from '../../components/filmList/filmList';
 import GenresList from '../../components/genre-list/genre-list';
 import {Genre} from '../../types/genres';
 import ShowMore from '../../components/show-more/show-more';
-import {useAppSelector} from '../../components/app/hooks';
+import {useAppSelector} from '../../hooks';
 
 type Props = {
   film: Film;
