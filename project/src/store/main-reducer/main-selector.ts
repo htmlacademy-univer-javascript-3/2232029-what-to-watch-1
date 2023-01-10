@@ -7,3 +7,4 @@ export const getPromoFilm = (state: State): Film | null => state[NameSpace.Data]
 export const getCurrentGenre = (state: State): string => state[NameSpace.Data].currentGenre;
 export const getIsDataLoaded = (state: State): boolean => state[NameSpace.Data].isDataLoaded;
 export const getError = (state: State): string|null => state[NameSpace.Data].error;
+export const getFavoriteFilms = (state: State): Film[] => state[NameSpace.Data].favoriteFilms;

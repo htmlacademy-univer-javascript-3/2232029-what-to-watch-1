@@ -10,8 +10,8 @@ import {getCurrentGenre, getFilms, getPromoFilm} from '../../store/main-reducer/
 import {getAuthorizationStatus} from '../../store/user-reducer/user-selector';
 import {AuthorizationStatus} from '../../const';
 import {Link} from 'react-router-dom';
-import PlayerButton from '../../components/player-button/player-button';
 import MyListButton from '../../components/my-list-button/my-list';
+import PlayerButton from '../../components/player-button/player-button';
 
 const SHOWED_FILMS_STEP = 8;
 
@@ -61,7 +61,7 @@ const MainPage: FC = () => {
 
               <div className="film-card__buttons">
                 <Link to={`/player/${promoFilm?.id ?? 0}`} className="btn btn--play film-card__button">
-                  <PlayerButton isPlay/>
+                  <PlayerButton/>
                 </Link>
                 { authorizationStatus === AuthorizationStatus.Auth ? <MyListButton film={promoFilm}/> : null }
               </div>
@@ -76,7 +76,7 @@ const MainPage: FC = () => {
           <GenresList genres={Object.values(Genre)} currentGenre={currentGenre}/>
 
           <div className="catalog__films-list">
-            <FilmList films={filteredFilms}/>
+            <FilmList films={films}/>
           </div>
 
           {filteredFilms.length % SHOWED_FILMS_STEP === 0 && <ShowMore onClick={handleMoreBtnClick}/>}

@@ -12,3 +12,4 @@ export const changeAuthorizationStatus = createAction<AuthorizationStatus>('chan
 export const setUser = createAction<User>('setUser');
 export const redirectToRoute = createAction<ROUTES | string>('redirectToRoute');
 export const setError = createAction<string | null>('setError');
+export const setFavoriteCount = createAction<number>('setFavoriteCount');

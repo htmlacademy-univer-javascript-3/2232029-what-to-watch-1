@@ -5,7 +5,6 @@ import {UserState} from '../../types/state';
 import {AuthorizationStatus} from '../../const';
 import {NameSpace} from '../const';
 
-
 const initialState: UserState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   user: null

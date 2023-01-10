@@ -1,14 +1,15 @@
-import {Dispatch, FC, SetStateAction, useEffect, useState} from 'react';
-import { FilmShort } from '../../types/film-short';
+import { FC, useEffect, useState} from 'react';
 import VideoPlayer from '../video/video-player';
+import {Film} from '../../types/film';
+import {Link} from 'react-router-dom';
 
 type Props = {
-  film: FilmShort;
-  onHover: Dispatch<SetStateAction<number | null>>;
+  film: Film;
+  onMouseEnter: (film: Film) => void;
 }
 
 const FilmCard: FC<Props> = (props) => {
-  const { film, onHover } = props;
+  const { film, onMouseEnter } = props;
   const [playing, setPlaying] = useState<boolean>(false);
   const [needPlaying, setNeedPlaying] = useState<boolean>(false);
 
@@ -28,11 +29,12 @@ const FilmCard: FC<Props> = (props) => {
   };
 
   return(
-    <article
-      className="small-film-card catalog__films-card"
-      onMouseOver={(_) => {
+    <Link
+      to={`/films/${film.id}`}
+      className="small-film-card catalog__films-card small-film-card__link"
+      onMouseEnter={(evt) => {
+        onMouseEnter(film);
         setNeedPlaying(true);
-        onHover?.((__) => film.id);
       }}
       onMouseLeave={handleMouseLeave}
     >
@@ -43,10 +45,8 @@ const FilmCard: FC<Props> = (props) => {
         width={280}
         height={175}
       />
-      <h3 className="small-film-card__title">
-        <a className="small-film-card__link" href={`/films/${film.id}`}>{film.name}</a>
-      </h3>
-    </article>
+      <h3 className="small-film-card__title">{film.name}</h3>
+    </Link>
   );
 };
 

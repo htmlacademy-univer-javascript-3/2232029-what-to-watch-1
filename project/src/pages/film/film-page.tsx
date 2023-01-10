@@ -1,60 +1,36 @@
 import Header from '../../components/header/header';
 import Footer from '../../components/footer/footer';
-import { Film } from '../../types/film';
-import {FC, useEffect, useState} from 'react';
+import {FC, useEffect} from 'react';
 import FilmList from '../../components/filmList/filmList';
-import { ROUTES } from '../../routes';
 import Tabs from '../../components/tabs/tabs';
-import {Review} from '../../types/review';
 import {useAppDispatch, useAppSelector} from '../../hooks';
-import {useParams} from 'react-router-dom';
-import {AxiosError} from 'axios';
+import {Link, useParams} from 'react-router-dom';
 import Loader from '../../components/loader/loader';
 import { AuthorizationStatus } from '../../const';
-import { StatusCodes } from 'http-status-codes';
-import {redirectToRoute} from '../../store/action';
-import {api} from '../../services/api';
 import {getAuthorizationStatus} from '../../store/user-reducer/user-selector';
+import MyListButton from '../../components/my-list-button/my-list';
+import {getIsDataLoaded} from '../../store/main-reducer/main-selector';
+import {getFilm, getReviews, getSimilarFilm} from '../../store/film-reducer/film-selector';
+import {fetchFilmById, fetchReviewsById, fetchSimilarById} from '../../store/api-actions';
 
 const FilmPage: FC = () => {
-  const [dataLoaded, setDataLoaded] = useState(false);
-  const [film, setFilm] = useState<null | Film>(null);
-  const [similarFilms, setSimilarFilms] = useState<null | Film[]>(null);
-  const [reviews, setReviews] = useState<null | Review[]>(null);
+  const id = Number(useParams().id);
+  const reviews = useAppSelector(getReviews);
+  const film = useAppSelector(getFilm);
+  const similarFilms = useAppSelector(getSimilarFilm);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
-  const { id } = useParams();
   const dispatch = useAppDispatch();
-
   useEffect(() => {
-    window.scroll({top: 0, behavior: 'smooth'});
-
-    const fetchFilm = async () => {
-      const { data: filmInfo } = await api.get<Film>(`/films/${id || -1}`);
-      setFilm(filmInfo);
-    };
-    const fetchSimilarFilms = async () => {
-      const { data: films } = await api.get<Film[]>(`/films/${id || -1}/similar`);
-      setSimilarFilms(films);
-    };
-    const fetchFilmReviews = async () => {
-      const { data: filmReviews } = await api.get<Review[]>(`/comments/${id || -1}`);
-      setReviews(filmReviews);
-    };
-
-    setDataLoaded(false);
-    fetchFilm()
-      .then(() => fetchSimilarFilms())
-      .then(() => fetchFilmReviews())
-      .then(() => setDataLoaded(true))
-      .catch((err: AxiosError) => {
-        if (err.response && err.response.status === StatusCodes.NOT_FOUND) {
-          dispatch(redirectToRoute(ROUTES.NOTFOUND));
-        }
-      });
-  }, [id]);
+    if (!film || film.id !== id) {
+      dispatch(fetchFilmById(id));
+      dispatch(fetchSimilarById(id));
+      dispatch(fetchReviewsById(id));
+    }
+  }, [film, dispatch, id]);
 
 
-  if (!dataLoaded) {
+  if (!isDataLoaded) {
     return <Loader />;
   }
 
@@ -68,7 +44,7 @@ const FilmPage: FC = () => {
 
           <h1 className='visually-hidden'>WTW</h1>
 
-          <Header />
+          <Header/>
 
           <div className='film-card__wrap'>
             <div className='film-card__desc'>
@@ -79,21 +55,13 @@ const FilmPage: FC = () => {
               </p>
 
               <div className='film-card__buttons'>
-                <button className='btn btn--play film-card__button' type='button'>
-                  <svg viewBox='0 0 19 19' width='19' height='19'>
-                    <use xlinkHref='#play-s'>
-                    </use>
+                <Link to={`/player/${film?.id ?? 0}`} className="btn btn--play film-card__button">
+                  <svg viewBox="0 0 19 19" width="19" height="19">
+                    <use xlinkHref="#play-s"/>
                   </svg>
                   <span>Play</span>
-                </button>
-                <button className='btn btn--list film-card__button' type='button'>
-                  <svg viewBox='0 0 19 20' width='19' height='20'>
-                    <use xlinkHref='#add'>
-                    </use>
-                  </svg>
-                  <span>My list</span>
-                  <span className='film-card__count'>9</span>
-                </button>
+                </Link>
+                {authorizationStatus === AuthorizationStatus.Auth ? <MyListButton film={film}/> : null}
                 {
                   authorizationStatus === AuthorizationStatus.Auth &&
                   <a href={id ? `/films/${id}/review` : '#'} className="btn film-card__button">Add review</a>
@@ -108,7 +76,7 @@ const FilmPage: FC = () => {
             <div className='film-card__poster film-card__poster--big'>
               <img src={film?.posterImage} alt={film?.name} width='218' height='327'/>
             </div>
-            {film && reviews && <Tabs film={film} reviews={reviews} />}
+            {film && reviews && <Tabs film={film} reviews={reviews}/>}
           </div>
         </div>
       </section>
@@ -116,11 +84,11 @@ const FilmPage: FC = () => {
       <div className='page-content'>
         <section className='catalog catalog--like-this'>
           <h2 className='catalog__title'>More like this</h2>
-          {similarFilms && <FilmList films={similarFilms} />}
+          {similarFilms && <FilmList films={similarFilms}/>}
 
         </section>
 
-        <Footer />
+        <Footer/>
       </div>
     </>
   );
