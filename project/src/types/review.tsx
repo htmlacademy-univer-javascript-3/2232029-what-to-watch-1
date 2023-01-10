@@ -6,7 +6,7 @@ export type Review = {
   rating: number;
   user: {
     id: number;
-    name: 'Kate Muir';
+    name: string;
   };
 }
 

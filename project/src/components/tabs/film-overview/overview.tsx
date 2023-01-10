@@ -21,7 +21,7 @@ const FilmOverviewTab: FC<Props> = (props) => {
       <div className="film-card__text">
         {film.description}
         <p className="film-card__director"><strong>Director: {film.director}</strong></p>
-        <p className="film-card__starring"><strong>Starring: {film.starring.join(',')} and other</strong></p>
+        <p className="film-card__starring"><strong>Starring: {film.starring.join(', ')}</strong></p>
       </div>
     </>
   );

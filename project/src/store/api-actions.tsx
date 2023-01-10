@@ -65,23 +65,23 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   }
 );
 
-export const fetchFilmById = createAsyncThunk<Film, string, {
+export const fetchFilmById = createAsyncThunk<Film, number, {
   state: State;
   extra: AxiosInstance;
 }>(
   'fetchFilmById',
-  async (filmId: string, { extra: api }) => {
+  async (filmId: number, { extra: api }) => {
     const { data } = await api.get<Film>(`${APIRoute.Films}/${filmId}`);
     return data;
   }
 );
 
-export const fetchReviewsById = createAsyncThunk<Review[], string, {
+export const fetchReviewsById = createAsyncThunk<Review[], number, {
   state: State;
   extra: AxiosInstance;
 }>(
   'fetchReviewsById',
-  async (filmId: string, { extra: api }) => {
+  async (filmId: number, { extra: api }) => {
     const { data } = await api.get<Review[]>(
       `${APIRoute.Reviews}/${filmId}`
     );
@@ -89,12 +89,12 @@ export const fetchReviewsById = createAsyncThunk<Review[], string, {
   }
 );
 
-export const fetchSimilarById = createAsyncThunk<Film[], string, {
+export const fetchSimilarById = createAsyncThunk<Film[], number, {
   state: State;
   extra: AxiosInstance;
 }>(
   'fetchSimilarById',
-  async (filmId: string, { extra: api }) => {
+  async (filmId: number, { extra: api }) => {
     const { data } = await api.get<Film[]>(
       `${APIRoute.Films}/${filmId}${APIRoute.Similar}`
     );

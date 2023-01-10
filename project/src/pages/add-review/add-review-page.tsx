@@ -59,7 +59,7 @@ const AddReviewPage: FC = () => {
         </div>
       </div>
 
-      <AddReviewForm filmId={filmId} />
+      <AddReviewForm/>
 
     </section>
   );
