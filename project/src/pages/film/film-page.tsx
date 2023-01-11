@@ -12,6 +12,7 @@ import MyListButton from '../../components/my-list-button/my-list';
 import {getIsDataLoaded} from '../../store/main-reducer/main-selector';
 import {getFilm, getReviews, getSimilarFilm} from '../../store/film-reducer/film-selector';
 import {fetchFilmById, fetchReviewsById, fetchSimilarById} from '../../store/api-actions';
+import NotFoundPage from '../not-found/not-found-page';
 
 const FilmPage: FC = () => {
   const id = Number(useParams().id);
@@ -21,6 +22,7 @@ const FilmPage: FC = () => {
   const isDataLoaded = useAppSelector(getIsDataLoaded);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (!film || film.id !== id) {
       dispatch(fetchFilmById(id));
@@ -29,6 +31,9 @@ const FilmPage: FC = () => {
     }
   }, [film, dispatch, id]);
 
+  if (!film) {
+    return <NotFoundPage />;
+  }
 
   if (!isDataLoaded) {
     return <Loader />;
@@ -39,7 +44,7 @@ const FilmPage: FC = () => {
       <section className='film-card film-card--full'>
         <div className='film-card__hero'>
           <div className='film-card__bg'>
-            <img src={`img/${film?.posterImage ?? ''}`} alt={film?.name}/>
+            <img src={film.backgroundImage} alt={film.name}/>
           </div>
 
           <h1 className='visually-hidden'>WTW</h1>
@@ -48,14 +53,14 @@ const FilmPage: FC = () => {
 
           <div className='film-card__wrap'>
             <div className='film-card__desc'>
-              <h2 className='film-card__title'>{film?.name}</h2>
+              <h2 className='film-card__title'>{film.name}</h2>
               <p className='film-card__meta'>
-                <span className='film-card__genre'>{film?.genre}</span>
-                <span className='film-card__year'>{film?.released}</span>
+                <span className='film-card__genre'>{film.genre}</span>
+                <span className='film-card__year'>{film.released}</span>
               </p>
 
               <div className='film-card__buttons'>
-                <Link to={`/player/${film?.id ?? 0}`} className="btn btn--play film-card__button">
+                <Link to={`/player/${film.id}`} className="btn btn--play film-card__button">
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"/>
                   </svg>
@@ -74,7 +79,7 @@ const FilmPage: FC = () => {
         <div className='film-card__wrap film-card__translate-top'>
           <div className='film-card__info'>
             <div className='film-card__poster film-card__poster--big'>
-              <img src={film?.posterImage} alt={film?.name} width='218' height='327'/>
+              <img src={film.posterImage} alt={film.name} width='218' height='327'/>
             </div>
             {film && reviews && <Tabs film={film} reviews={reviews}/>}
           </div>
@@ -84,7 +89,7 @@ const FilmPage: FC = () => {
       <div className='page-content'>
         <section className='catalog catalog--like-this'>
           <h2 className='catalog__title'>More like this</h2>
-          {similarFilms && <FilmList films={similarFilms}/>}
+          {similarFilms && <FilmList films={similarFilms.slice(0, 4)}/>}
 
         </section>
 

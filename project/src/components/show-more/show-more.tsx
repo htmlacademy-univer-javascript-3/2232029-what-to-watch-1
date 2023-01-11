@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-
 type Props = {
   onClick: () => void;
 };

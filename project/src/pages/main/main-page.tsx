@@ -23,8 +23,9 @@ const MainPage: FC = () => {
   const [showedFilmsCount, setShowedFilmsCount] = useState(SHOWED_FILMS_STEP);
 
   const filteredFilms = films
-    .filter((curFilm) => curFilm.genre === currentGenre || currentGenre === Genre.ALL_GENRES)
-    .slice(0, showedFilmsCount);
+    .filter((curFilm) => curFilm.genre === currentGenre || currentGenre === Genre.ALL_GENRES);
+
+  const filteredGenres = Object.values(Genre).slice(0, 10);
 
   const handleMoreBtnClick = () => {
     setShowedFilmsCount(showedFilmsCount + SHOWED_FILMS_STEP);
@@ -73,13 +74,10 @@ const MainPage: FC = () => {
       <div className="page-content">
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
-          <GenresList genres={Object.values(Genre)} currentGenre={currentGenre}/>
+          <GenresList genres={filteredGenres} currentGenre={currentGenre}/>
+          <FilmList films={filteredFilms.slice(0, showedFilmsCount)}/>
 
-          <div className="catalog__films-list">
-            <FilmList films={films}/>
-          </div>
-
-          {filteredFilms.length % SHOWED_FILMS_STEP === 0 && <ShowMore onClick={handleMoreBtnClick}/>}
+          {showedFilmsCount + SHOWED_FILMS_STEP < filteredFilms.length && <ShowMore onClick={handleMoreBtnClick}/>}
         </section>
 
         <Footer />

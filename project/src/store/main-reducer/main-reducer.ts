@@ -35,7 +35,6 @@ export const mainReducer = createSlice({
       })
       .addCase(getFavoriteFilmsAction.fulfilled, (state, action) => {
         state.favoriteFilms = action.payload;
-      })
-    ;
+      });
   }
 });
