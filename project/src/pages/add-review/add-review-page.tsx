@@ -8,6 +8,8 @@ import AddReviewForm from '../../components/add-review/add-review-form';
 import {redirectToRoute} from '../../store/action';
 import {api} from '../../services/api';
 import {ROUTES} from '../../routes';
+import NotFoundPage from '../not-found/not-found-page';
+import {fetchFilmById} from '../../store/api-actions';
 
 const AddReviewPage: FC = () => {
   const params = useParams();
@@ -19,6 +21,7 @@ const AddReviewPage: FC = () => {
   useEffect(() => {
     api.get<Film>(`/films/${id || -1}`).then(({ data }) => {
       if (data) {
+        dispatch(fetchFilmById(data.id));
         setFilm(data);
       } else {
         dispatch(redirectToRoute(ROUTES.NOTFOUND));
@@ -26,11 +29,15 @@ const AddReviewPage: FC = () => {
     });
   }, [filmId]);
 
+  if (!film) {
+    return <NotFoundPage/>;
+  }
+
   return (
     <section className='film-card film-card--full'>
       <div className='film-card__header'>
         <div className='film-card__bg'>
-          <img src={film?.backgroundImage} alt={film?.name}/>
+          <img src={film.backgroundImage} alt={film.name}/>
         </div>
 
         <h1 className='visually-hidden'>WTW</h1>
@@ -41,10 +48,10 @@ const AddReviewPage: FC = () => {
           <nav className='breadcrumbs'>
             <ul className='breadcrumbs__list'>
               <li className='breadcrumbs__item'>
-                <a href={id ? `/films/${id}` : '#'} className='breadcrumbs__link'>{film?.name}</a>
+                <a href={id ? `/films/${id}` : '#'} className='breadcrumbs__link'>{film.name}</a>
               </li>
               <li className='breadcrumbs__item'>
-                <a className='breadcrumbs__link'>Add review</a>
+                <a href={id ? `/films/${id}` : '#'} className='breadcrumbs__link'>Add review</a>
               </li>
             </ul>
           </nav>
@@ -53,14 +60,14 @@ const AddReviewPage: FC = () => {
         </header>
 
         <div className='film-card__poster film-card__poster--small'>
-          <img src={film?.posterImage} alt={film?.name} width='218'
+          <img src={film.posterImage} alt={film.name} width='218'
             height='327'
           />
         </div>
       </div>
-
-      <AddReviewForm/>
-
+      <div className="add-review">
+        <AddReviewForm/>
+      </div>
     </section>
   );
 };

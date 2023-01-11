@@ -8,6 +8,7 @@ import {setError} from '../../store/action';
 import {postReview} from '../../store/api-actions';
 import {getUser} from '../../store/user-reducer/user-selector';
 import { now } from 'moment';
+import NotFoundPage from '../../pages/not-found/not-found-page';
 
 const AddReviewForm: FC = () => {
   const dispatch = useAppDispatch();
@@ -19,6 +20,11 @@ const AddReviewForm: FC = () => {
     reviewText: ''
   });
   const error = useAppSelector(getError);
+
+  if (!film) {
+    return <NotFoundPage/>;
+  }
+
   const handleReviewTextChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setFormValue((prevValue) => ({
       ...prevValue,
@@ -28,7 +34,7 @@ const AddReviewForm: FC = () => {
   const handleStarsCountChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFormValue((prevState) => ({
       ...prevState,
-      starsCount: Number(event.target.value)
+      rating: Number(event.target.value)
     }));
   };
 
@@ -54,7 +60,7 @@ const AddReviewForm: FC = () => {
 
     if (formValue.reviewText && formValue.rating) {
       onSubmit(formValue);
-      navigate(`/films/${film?.id ?? 0}`);
+      navigate(`/films/${film?.id}`);
     }
   };
 
@@ -63,10 +69,18 @@ const AddReviewForm: FC = () => {
       <div className="rating">
         <div className="rating__stars">
           {
-            Array.from(Array(10).keys()).map((cur) => (
-              <Fragment key={cur}>
-                <input className="rating__input" id={`star-${cur + 1}`} type="radio" name="rating" value={cur + 1} checked={formValue.rating === cur + 1} onChange={handleStarsCountChange}/>
-                <label className="rating__label" htmlFor={`star-${cur + 1}`}>Rating {cur + 1}</label>
+            Array.from(Array(10).keys()).map((star) => (
+              <Fragment key={star}>
+                <input
+                  className="rating__input"
+                  id={`star-${star + 1}`}
+                  type="radio"
+                  name="rating"
+                  value={star + 1}
+                  checked={formValue.rating === star + 1}
+                  onChange={handleStarsCountChange}
+                />
+                <label className="rating__label" htmlFor={`star-${star + 1}`}>Rating {star + 1}</label>
               </Fragment>
             ))
           }

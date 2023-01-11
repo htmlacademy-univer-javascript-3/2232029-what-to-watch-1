@@ -17,7 +17,7 @@ const FilmCard: FC<Props> = (props) => {
     let needUpdate = true;
 
     if (needPlaying) {
-      setTimeout(() => needUpdate && setNeedPlaying(true), 1000);
+      setTimeout(() => needUpdate && setPlaying(true), 1000);
     }
 
     return () => {needUpdate = false;};
@@ -38,13 +38,15 @@ const FilmCard: FC<Props> = (props) => {
       }}
       onMouseLeave={handleMouseLeave}
     >
-      <VideoPlayer
-        film={film}
-        needSound={false}
-        isPlaying={playing}
-        width={280}
-        height={175}
-      />
+      <div>
+        <VideoPlayer
+          film={film}
+          needSound={false}
+          isPlaying={playing}
+          width={280}
+          height={175}
+        />
+      </div>
       <h3 className="small-film-card__title">{film.name}</h3>
     </Link>
   );
