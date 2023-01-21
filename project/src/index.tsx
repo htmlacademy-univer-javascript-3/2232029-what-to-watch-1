@@ -1,10 +1,13 @@
+import 'react-toastify/dist/ReactToastify.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/app/app';
 import {Provider} from 'react-redux';
 import {store} from './store';
 import {fetchFilmsAction, checkAuthAction, fetchPromoFilm, getFavoriteFilmsAction} from './store/api-actions';
-import {BrowserRouter} from 'react-router-dom';
+import {ToastContainer} from 'react-toastify';
+import browserHistory from './components/browser-history/browser-history';
+import HistoryRouter from './components/history-router/history-router';
 
 store.dispatch(checkAuthAction());
 store.dispatch(fetchFilmsAction());
@@ -19,9 +22,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App/>
-      </BrowserRouter>
+      <HistoryRouter history={browserHistory}/>
+      <ToastContainer/>
+      <App />
     </Provider>
   </React.StrictMode>,
 );

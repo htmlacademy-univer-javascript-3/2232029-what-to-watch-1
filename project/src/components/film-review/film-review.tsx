@@ -19,7 +19,7 @@ const FilmReview: FC<Props> = (props) => {
         </footer>
       </blockquote>
 
-      <div className="review__rating">{review.rating}</div>
+      <div className="review__rating">{review.rating.toFixed(1)}</div>
     </div>
   );
 };

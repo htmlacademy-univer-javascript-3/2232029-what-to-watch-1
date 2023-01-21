@@ -1,13 +1,13 @@
 import {FC} from 'react';
-import {Review} from '../../../types/review';
 import FilmReview from '../../film-review/film-review';
+import {Review} from '../../../types/review';
 
 type Props = {
   reviews: Review[];
 }
 
 const FilmReviewsTab: FC<Props> = (props) => {
-  const { reviews } = props;
+  const {reviews} = props;
 
   return (
     <div className="film-card__reviews film-card__row">

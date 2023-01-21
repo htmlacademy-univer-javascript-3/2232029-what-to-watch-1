@@ -22,13 +22,14 @@ const FilmPage: FC = () => {
   const isDataLoaded = useAppSelector(getIsDataLoaded);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     if (!film || film.id !== id) {
       dispatch(fetchFilmById(id));
       dispatch(fetchSimilarById(id));
       dispatch(fetchReviewsById(id));
     }
+    dispatch(fetchSimilarById(id));
+    dispatch(fetchReviewsById(id));
   }, [film, dispatch, id]);
 
   if (!film) {
