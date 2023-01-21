@@ -27,7 +27,7 @@ const AddReviewPage: FC = () => {
         dispatch(redirectToRoute(ROUTES.NOTFOUND));
       }
     });
-  }, [filmId]);
+  }, [filmId, dispatch, id]);
 
   if (!film) {
     return <NotFoundPage/>;

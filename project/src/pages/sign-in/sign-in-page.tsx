@@ -1,13 +1,14 @@
-import {FC, FormEvent, useRef, useState} from 'react';
+import {FC, FormEvent, useEffect, useRef, useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { loginAction } from '../../store/api-actions';
+import {loginAction} from '../../store/api-actions';
 import {ROUTES} from '../../routes';
 import Footer from '../../components/footer/footer';
 import Header from '../../components/header/header';
 import {getAuthorizationStatus} from '../../store/user-reducer/user-selector';
 import {AuthData} from '../../types/auth-data';
+
 
 const SignInPage: FC = () => {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -16,14 +17,17 @@ const SignInPage: FC = () => {
   const isSignInMessage = false;
   const isValidPassword = (password: string): boolean => /\d+[a-zA-Z]+|[a-zA-Z]+\d+/.test(password);
 
-  if (authorizationStatus === AuthorizationStatus.Auth) {
-    navigate(ROUTES.MAIN);
-  }
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      navigate(ROUTES.MAIN);
+    }
+  }, [authorizationStatus, navigate]);
 
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
 
-  const dispatch = useAppDispatch();
 
   const onSubmit = (authData: AuthData) => {
     dispatch(loginAction(authData))

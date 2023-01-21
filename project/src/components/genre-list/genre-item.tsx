@@ -16,7 +16,7 @@ const GenreItem: React.FC<Props> = (props) => {
 
   return (
     <li className={`catalog__genres-item ${isCurrentGenre ? 'catalog__genres-item--active' : ''}`}>
-      <a className='catalog__genres-link' onClick={clickHandler}>{genre}</a>
+      <span className='catalog__genres-link' onClick={clickHandler}>{genre}</span>
     </li>
   );
 };

@@ -2,17 +2,19 @@ import React, {ChangeEvent, FC, FormEvent, Fragment, useState} from 'react';
 import {Review, ReviewData} from '../../types/review';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {getError} from '../../store/main-reducer/main-selector';
-import {useNavigate} from 'react-router-dom';
 import {getFilm} from '../../store/film-reducer/film-selector';
-import {setError} from '../../store/action';
+import {redirectToRoute, setError} from '../../store/action';
 import {postReview} from '../../store/api-actions';
 import {getUser} from '../../store/user-reducer/user-selector';
 import { now } from 'moment';
 import NotFoundPage from '../../pages/not-found/not-found-page';
 
+const MAX_STARS_COUNT = 10;
+const MAX_COMMENT_LEN = 400;
+const MIN_COMMENT_LEN = 50;
+
 const AddReviewForm: FC = () => {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const film = useAppSelector(getFilm);
   const user = useAppSelector(getUser);
   const [formValue, setFormValue] = useState<ReviewData>({
@@ -60,7 +62,8 @@ const AddReviewForm: FC = () => {
 
     if (formValue.reviewText && formValue.rating) {
       onSubmit(formValue);
-      navigate(`/films/${film?.id}`);
+      const redirectUrl = `/films/${film?.id}`;
+      dispatch(redirectToRoute(redirectUrl));
     }
   };
 
@@ -69,7 +72,7 @@ const AddReviewForm: FC = () => {
       <div className="rating">
         <div className="rating__stars">
           {
-            Array.from(Array(10).keys()).map((star) => (
+            Array.from(Array(MAX_STARS_COUNT).keys()).map((star) => (
               <Fragment key={star}>
                 <input
                   className="rating__input"
@@ -87,9 +90,16 @@ const AddReviewForm: FC = () => {
         </div>
       </div>
       <div className="add-review__text">
-        <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" value={formValue.reviewText} onChange={handleReviewTextChange}/>
+        <textarea
+          className="add-review__textarea"
+          name="review-text"
+          id="review-text"
+          placeholder="Отзыв должен быть от 50 до 400 символов"
+          value={formValue.reviewText}
+          onChange={handleReviewTextChange}
+        />
         <div className="add-review__submit">
-          { (formValue.reviewText.length < 50 || formValue.reviewText.length >= 400 || formValue.rating === 0)
+          { (formValue.reviewText.length < MIN_COMMENT_LEN || formValue.reviewText.length >= MAX_COMMENT_LEN || formValue.rating === 0)
             ? <button className="add-review__btn" type="submit" disabled>Post</button>
             : <button className="add-review__btn" type="submit">Post</button>}
         </div>
